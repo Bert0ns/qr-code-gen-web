@@ -1,0 +1,35 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3b82f6" /> <!-- Electric Blue -->
+      <stop offset="1" stop-color="#8b5cf6" /> <!-- Vibrant Purple -->
+    </linearGradient>
+  </defs>
+  
+  <!-- Smooth gradient background -->
+  <rect width="256" height="256" rx="56" fill="url(#bg)"/>
+
+  <g fill="#ffffff">
+    <!-- Top Left Eye -->
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M40 40H112V112H40V40ZM56 56V96H96V56H56Z"/>
+    <rect x="68" y="68" width="16" height="16" rx="4"/>
+
+    <!-- Top Right Eye -->
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M144 40H216V112H144V40ZM160 56V96H200V56H160Z"/>
+    <rect x="172" y="68" width="16" height="16" rx="4"/>
+
+    <!-- Bottom Left Eye -->
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M40 144H112V216H40V144ZM56 160V200H96V160H56Z"/>
+    <rect x="68" y="172" width="16" height="16" rx="4"/>
+
+    <!-- Data Blocks -->
+    <rect x="144" y="144" width="32" height="32" rx="8"/>
+    <rect x="192" y="144" width="24" height="24" rx="6"/>
+    <rect x="144" y="192" width="24" height="24" rx="6"/>
+    <rect x="184" y="184" width="32" height="32" rx="8"/>
+    
+    <!-- Abstract Connectors -->
+    <rect x="112" y="112" width="32" height="16" rx="4"/>
+    <rect x="112" y="144" width="16" height="32" rx="4"/>
+  </g>
+</svg>

@@ -3,6 +3,8 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { QRParser } from '@/lib/qr-parser';
+import { formatJson } from '@/lib/json-utils';
+import { useQRExport } from '@/hooks/useQRExport';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
@@ -35,15 +37,7 @@ export default function QRCodeGenerator() {
 
   const parsed = useMemo(() => parser.parse(jsonInput), [jsonInput]);
 
-  const formatJson = (text: string) => {
-    try {
-      if (!text.trim()) return text;
-      const parsedData = JSON.parse(text);
-      return JSON.stringify(parsedData, null, 2);
-    } catch {
-      return text;
-    }
-  };
+  const { downloadSVG, downloadPNG } = useQRExport(qrRef, bgColor);
 
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -57,46 +51,6 @@ export default function QRCodeGenerator() {
   };
 
   const removeLogo = () => setLogoUrl(null);
-
-  const downloadSVG = () => {
-    if (!qrRef.current) return;
-    const svgData = new XMLSerializer().serializeToString(qrRef.current);
-    const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'qrcode.svg';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const downloadPNG = () => {
-    if (!qrRef.current) return;
-    const svgData = new XMLSerializer().serializeToString(qrRef.current);
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-
-    // Scale up for high resolution
-    const size = 1024;
-    canvas.width = size;
-    canvas.height = size;
-
-    img.onload = () => {
-      if (ctx) {
-        ctx.fillStyle = bgColor;
-        ctx.fillRect(0, 0, size, size);
-        ctx.drawImage(img, 0, 0, size, size);
-        const pngFile = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.download = 'qrcode.png';
-        link.href = pngFile;
-        link.click();
-      }
-    };
-    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
-  };
 
   return (
     <div className="container mx-auto p-4 md:p-8 max-w-7xl">
