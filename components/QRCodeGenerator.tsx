@@ -250,10 +250,10 @@ export default function QRCodeGenerator() {
                         if (v) setLevel(v as 'L' | 'M' | 'Q' | 'H');
                       }}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="w-fit min-w-max">
                         <SelectValue placeholder="Select level" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="min-w-max">
                         <SelectItem value="L">Low (7%) - Best for small URLs</SelectItem>
                         <SelectItem value="M">Medium (15%) - Standard</SelectItem>
                         <SelectItem value="Q">Quartile (25%) - Good for readability</SelectItem>
@@ -305,7 +305,7 @@ export default function QRCodeGenerator() {
                       <QRCodeSVG
                         value={parsed.payload || ' '}
                         size={280}
-                        bgColor="#ffffff"
+                        bgColor={bgColor}
                         fgColor={fgColor}
                         level={level}
                         includeMargin={false}
