@@ -35,6 +35,16 @@ export default function QRCodeGenerator() {
 
   const parsed = useMemo(() => parser.parse(jsonInput), [jsonInput]);
 
+  const formatJson = (text: string) => {
+    try {
+      if (!text.trim()) return text;
+      const parsedData = JSON.parse(text);
+      return JSON.stringify(parsedData, null, 2);
+    } catch {
+      return text;
+    }
+  };
+
   const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -111,6 +121,8 @@ export default function QRCodeGenerator() {
                   className="font-mono min-h-[240px] resize-y"
                   value={jsonInput}
                   onChange={(e) => setJsonInput(e.target.value)}
+                  onBlur={() => setJsonInput(formatJson(jsonInput))}
+                  onPaste={() => setTimeout(() => setJsonInput((prev) => formatJson(prev)), 50)}
                   placeholder={'{\n  "url": "https://example.com"\n}'}
                 />
                 <AnimatePresence>
