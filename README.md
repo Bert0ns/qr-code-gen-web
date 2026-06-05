@@ -75,3 +75,5 @@ The project is structured with maintainability and scalability in mind, adhering
 ---
 
 _Designed for maintainability, elegance, and speed._
+
+don't forget to read [AGENTS.md](AGENTS.md)
