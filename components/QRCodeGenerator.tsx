@@ -24,7 +24,7 @@ const parser = new QRParser();
 
 export default function QRCodeGenerator() {
   const [jsonInput, setJsonInput] = useState(
-    '{\n  "ssid": "MyWiFiNetwork",\n  "password": "SuperSecretPassword123",\n  "type": "WPA"\n}'
+    '{\n  "ticketCode": "24869",\n  "destination": "MILANO GRECO PIRELLI" \n}'
   );
   const [fgColor, setFgColor] = useState('#000000');
   const [bgColor, setBgColor] = useState('#ffffff');
