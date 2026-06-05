@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JSON to QR Code Generator
 
-## Getting Started
+A modern, elegant, and highly customizable Next.js web application that converts JSON data into QR codes. Built with React, Tailwind CSS, and shadcn/ui.
 
-First, run the development server:
+## 🌟 Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The application takes a JSON payload and dynamically generates a QR code. It intelligently parses the JSON to detect specific structures (like WiFi configurations, vCards, or Emails) and generates standard, universally recognized QR payloads. If the JSON doesn't match a known schema, it falls back to a stringified JSON payload.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Core Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Intelligent Payload Parsing:**
+  - Automatically detects standard schemas (WiFi, vCard, Email, SMS, Geo-location, etc.).
+  - Generates standard formatted QR strings based on the detected schema.
+  - Graceful fallback to stringified JSON for arbitrary data.
+- **Deep Customization:**
+  - Adjust foreground and background colors.
+  - Upload and embed a custom logo in the center of the QR code.
+  - Select Error Correction Levels (L, M, Q, H) to support embedded logos or degraded scanning conditions.
+- **Export Options:**
+  - Download the generated QR code in high-quality **PNG** format.
+  - Download scalable vector graphics in **SVG** format.
+- **Modern Theming & Aesthetics:**
+  - System-aware Light and Dark mode using `next-themes`.
+  - Elegant UI built with `shadcn/ui` components.
+  - Smooth micro-interactions and transitions using `framer-motion`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🏗 Architecture & SOLID Principles
 
-## Learn More
+The project is structured with maintainability and scalability in mind, adhering closely to **SOLID** principles:
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Single Responsibility Principle (SRP):**
+    - _Separation of Concerns:_ UI components are strictly separated from business logic.
+    - _Modules:_ `ParserEngine` (handles JSON parsing), `ConfigStore` (manages user preferences), and UI components (`JSONInput`, `PreviewPanel`, `Customizer`) each have exactly one reason to change.
+2.  **Open/Closed Principle (OCP):**
+    - _Extensible Parsing:_ The `ParserEngine` uses a Strategy Pattern. To add support for a new QR standard (e.g., Crypto Wallet Address), we create a new `Strategy` class without modifying the core parsing engine.
+3.  **Liskov Substitution Principle (LSP):**
+    - All parsing strategies implement a base `PayloadStrategy` interface. The core engine can substitute any strategy without knowing its internal implementation.
+4.  **Interface Segregation Principle (ISP):**
+    - Interfaces are kept small and focused. For instance, the interface for color configuration is separate from the interface for payload structure.
+5.  **Dependency Inversion Principle (DIP):**
+    - High-level modules (the React UI) depend on abstractions (custom hooks and interfaces) rather than concrete parsing or generation implementations.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Technology Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Framework:** Next.js (App Router) with React 19
+- **Styling:** Tailwind CSS
+- **UI Components:** shadcn/ui & Radix UI
+- **Icons:** Lucide React
+- **Animations:** Framer Motion
+- **Theming:** next-themes (Light/Dark mode)
+- **QR Generation:** `qrcode.react` (or similar for native SVG/Canvas rendering)
+- **Validation:** `zod` (for strict JSON schema validation and parsing)
 
-## Deploy on Vercel
+## 🗺 Implementation Plan
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  **Phase 1: Foundation & Setup**
+    - Initialize `shadcn/ui`, `next-themes`, and Tailwind configuration.
+    - Set up standard project structure (`components/`, `lib/`, `hooks/`, `types/`).
+2.  **Phase 2: The Core Engine (Business Logic)**
+    - Define `PayloadStrategy` interface.
+    - Implement initial strategies: `WiFiStrategy`, `VCardStrategy`, `EmailStrategy`, `FallbackStrategy`.
+    - Implement the Strategy Resolver (Factory) to auto-detect JSON structure using `zod`.
+3.  **Phase 3: UI Implementation**
+    - Create the split-pane layout (Input & Controls on left, Live Preview on right).
+    - Implement theme toggling (Light/Dark).
+    - Build the `CustomizerPanel` using shadcn components (Sliders, Selects, Color Pickers).
+4.  **Phase 4: QR Generation & Export**
+    - Integrate the QR code renderer.
+    - Implement logic to draw SVG to Canvas for PNG export.
+    - Implement raw SVG download.
+5.  **Phase 5: Polish & Animations**
+    - Add Framer Motion for smooth state transitions (e.g., when the QR code successfully updates).
+    - Add robust error handling for invalid JSON input.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+_Designed for maintainability, elegance, and speed._
